@@ -42,7 +42,7 @@ public class FriendsBook {
             }
             else if(selection.equals("2"))
             {
-                new User().Login();
+                User.Login();
                 
                 
             }

@@ -55,23 +55,31 @@ public class Notification {
                 
                 
                 String Selection="";
-                System.out.println("Do you want to add or delete:");
+                
+
+                while(!Selection.equals("x"))
+        {
+            System.out.println("Do you want to add or delete:");
                 System.out.println();
                 System.out.println("1:Confirm");
                 System.out.println("2:Delete");
+                System.out.println("x:Main Menu");
                 Selection = input.nextLine();
                 System.out.println();
-
                 if(Selection.equals("1"))
                 {
-                   int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +u.uid+"')");
+                   int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
                 }
                 if(Selection.equals("2"))
                  {
                     //Check_not.Delete();
                  }
+                if(Selection.equals("x"))
+                {
+                    ;
                 }
-        // }
+                }
+        }
          catch(SQLException e)
          {  
              e.printStackTrace();

@@ -100,7 +100,7 @@ public class User {
     }
     }
     
-    public void Login(){
+    public static void Login(){
          Scanner input=new Scanner(System.in);
         String password="";
         
@@ -124,7 +124,9 @@ public class User {
             if(rs.next()){
                  Scanner input1 = new Scanner(System.in);
                 String Selection="";
-                System.out.println("1.Select an update and post");
+                
+                while(!Selection.equals("x")){
+                    System.out.println("1.Select an update and post");
                 System.out.println("2:Check Notification");
                 System.out.println("3:Create a new post");
                 System.out.println("4:Friends");
@@ -132,47 +134,43 @@ public class User {
                 System.out.println("6:Send a message");
                 System.out.println("7:Send a friend request");
                 System.out.println("8:See Hashtag in trend");
+                System.out.println("x:Logout");
                 Selection = input1.nextLine();
                 System.out.println();
-                if(Selection.equals("1"))
-            {
-                
-               
-            }
-                  if(Selection.equals("2"))
-            {
+                    if(Selection.equals("1"))
+                {
+                }
+                if(Selection.equals("2"))
+                {
                     new Notification().CheckNotification();
-            }
-                    if(Selection.equals("3"))
-            {
+                }
+                if(Selection.equals("3"))
+                {
+                }
+                if(Selection.equals("4"))
+                {
+                   new AllFriends().myFriends();
+                }
+                if(Selection.equals("5"))
+                {
+                }
+                if(Selection.equals("6"))
+                {
+                   new Friends().Msg();
+                }
+                if(Selection.equals("7"))
+                {
+                   Friend_Request.SendFriendReq();
+                }
+                if(Selection.equals("8"))
+                {
+                }
+                if(Selection.equals("x"))
+                {
+                    ;
+                }
+                }
                 
-               
-            }
-                      if(Selection.equals("4"))
-            {
-               new AllFriends().myFriends();
-               
-            }
-                        if(Selection.equals("5"))
-            {
-             
-               
-            }
-                          if(Selection.equals("6"))
-            {
-                              new Friends().Msg();
-                                    
-            }
-                            if(Selection.equals("7"))
-            {
-                         new Friend_Request().SendFriendReq();
-               
-            }
-                              if(Selection.equals("8"))
-            {
-    
-               
-            }
             }
             else{
                 System.out.print("Try again!!!");

@@ -36,7 +36,7 @@ public class AllFriends {
              conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
              statement = conn.createStatement();
              statement1 = conn.createStatement();
-             resultSet = statement.executeQuery("Select * from friend Where id1 ='"+u.uid+"'or id2 = '"+u.uid+"'");
+             resultSet = statement.executeQuery("Select * from friends Where id1 ='"+u.uid+"'or id2 = '"+u.uid+"'");
              
              
            int seq=0;
@@ -44,12 +44,12 @@ public class AllFriends {
             {
                 if(resultSet.getString(1).equals(u.uid))
                 {
-                    resultSet1 = statement1.executeQuery("Select UserName from User Where ID ='"+resultSet.getString(2)+"'");
+                    resultSet1 = statement1.executeQuery("Select UName from User Where ID ='"+resultSet.getString(2)+"'");
                     seq++;
                 }
                 else if(resultSet.getString(2).equals(u.uid))
                 {
-                    resultSet1 = statement1.executeQuery("Select UserName from User Where ID ='"+resultSet.getString(1)+"'");
+                    resultSet1 = statement1.executeQuery("Select UName from User Where ID ='"+resultSet.getString(1)+"'");
                     seq++;
                 }
                 while(resultSet1.next())
