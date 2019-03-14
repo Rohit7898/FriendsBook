@@ -9,14 +9,8 @@ package friendsbook;
  *
  * @author PrajapatiR1738
  */
-public class Friends {
-    public void Chk_Not(){
-        
-    }
-    public void Msg(){
-        
-    }
-    public void FriendRequest(){
+public class Message {
+    public void send_msg(){
         
     }
 }
