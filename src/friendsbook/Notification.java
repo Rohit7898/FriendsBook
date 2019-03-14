@@ -19,84 +19,160 @@ import java.util.Scanner;
 public class Notification {
     public  void CheckNotification()
       {
-          Scanner input = new Scanner(System.in);
-          User u=new User();
-          System.out.print(u.uid);
-             String notice="";
-            System.out.println("Check Notifications:");
-           System.out.println("--------------------");
-                System.out.println("1:Friend Requests");
-                System.out.println("2:Messages");
-                notice = input.nextLine();
-                System.out.println();
-             if(notice.equals("1"))
-                {   
-               final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
-        
+        Scanner input = new Scanner(System.in);
+        User u=new User();
+        System.out.print(u.uid);
+        String type="";
+        System.out.println("New Notifications:");
+        System.out.println("1:Friend Requests");
+        System.out.println("2:Messages");
+        type=input.next();
+        System.out.println();
+        if(type.equals("1"))
+        {   
+            final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
             Connection conn = null;
             Statement statement = null;
             ResultSet resultSet = null;
-                
-                 try
-                  {
-                   conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
-                   statement = conn.createStatement();
-                 resultSet = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
-                 System.out.println("Friend Requests:");
+            ResultSet resultSet1 = null;
+            try
+            {
+                conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+                statement = conn.createStatement();
+                resultSet = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
+                resultSet1 = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
+                System.out.println("Friend Requests:");
                 System.out.println("----------------");
-                 int seq=0;
-                 while(resultSet.next())
-                 {
-                      seq++;
-                      System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
-                      System.out.println();
-                 }
-
-                
-                
-                String Selection="";
-                
-
-                while(!Selection.equals("x"))
-        {
-            System.out.println("Do you want to add or delete:");
-                System.out.println();
-                System.out.println("1:Confirm");
-                System.out.println("2:Delete");
-                System.out.println("x:Main Menu");
-                Selection = input.nextLine();
-                System.out.println();
-                if(Selection.equals("1"))
+                int seq=0;
+                while(resultSet.next())
                 {
-                   int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
+                    seq++;
+                    System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
+                    System.out.println();
                 }
-                if(Selection.equals("2"))
-                 {
-                    //Check_not.Delete();
-                 }
-                if(Selection.equals("x"))
+                if(resultSet1.next())
                 {
-                    ;
+                    seq++;
+                    System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
+                    System.out.println();
                 }
+                if(seq==0)
+                {
+                    System.out.println("No New Request");
+                    System.out.println();
+                }
+                else
+                {
+                    String Selection="";
+                    System.out.println("Do you want to add or delete:");
+                    System.out.println();
+                    System.out.println("1:Add");
+                    System.out.println("2:Delete");
+                    System.out.println("x:Go Back");
+                    Selection = input.next();
+                    System.out.println();
+                    if(Selection.equals("1"))
+                    {
+                        int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
+                    }
+                    if(Selection.equals("2"))
+                    {
+                        //Check_not.Delete();
+                    }
+                    if(Selection.equals("x"))
+                    {
+                        ;
+                    }
+                
+                }
+            }
+            catch(SQLException e)
+            {  
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    resultSet.close();
+                    statement.close();
+                    conn.close();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+             }
+        }
+        else if(type.equals("2"))
+        {   
+            final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
+            Connection conn = null;
+            Statement statement = null;
+            ResultSet resultSet = null;
+            try
+            {
+                conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+                statement = conn.createStatement();
+                resultSet = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='M'");
+                System.out.println("New Messages:");
+                System.out.println("----------------");
+                int seq=0;
+                while(resultSet.next())
+                {
+                    seq++;
+                    System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
+                    System.out.println();
+                }
+                if(seq==0){
+                    System.out.println("No New Messsages");
+                    System.out.println();
+                }
+                else
+                {
+                    String Selection="";
+                    while(!Selection.equals("x"))
+                    {
+                        System.out.println("Do you want to reply or not:");
+                        System.out.println();
+                        System.out.println("1:Reply");
+                        System.out.println("2:Read only");
+                        System.out.println("x:Go Back");
+                        Selection = input.nextLine();
+                        System.out.println();
+                        if(Selection.equals("1"))
+                        {
+                            int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
+                        }
+                        if(Selection.equals("2"))
+                        {
+                            //Check_not.Delete();
+                        }
+                        if(Selection.equals("x"))
+                        {
+                            ;
+                        }
+                    }
+                }
+                
+            }
+            catch(SQLException e)
+            {  
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    resultSet.close();
+                    statement.close();
+                    conn.close();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
                 }
         }
-         catch(SQLException e)
-         {  
-             e.printStackTrace();
-         }
-         finally
-         {
-             try
-             {
-                 resultSet.close();
-                 statement.close();
-                 conn.close();
-             }
-             catch(Exception e)
-             {
-                 e.printStackTrace();
-             }
-         }
-      
-      }}
+        }
+    }
 }
