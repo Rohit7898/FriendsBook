@@ -33,14 +33,16 @@ public class Notification {
             final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
             Connection conn = null;
             Statement statement = null;
+            Statement statement1 = null;
             ResultSet resultSet = null;
             ResultSet resultSet1 = null;
             try
             {
                 conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
                 statement = conn.createStatement();
+                statement1 = conn.createStatement();
                 resultSet = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
-                resultSet1 = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
+                resultSet1 = statement1.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='R'");
                 System.out.println("Friend Requests:");
                 System.out.println("----------------");
                 int seq=0;
@@ -50,12 +52,7 @@ public class Notification {
                     System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
                     System.out.println();
                 }
-                if(resultSet1.next())
-                {
-                    seq++;
-                    System.out.printf(seq+". %s  %s",resultSet.getString(2),resultSet.getString(5));
-                    System.out.println();
-                }
+                
                 if(seq==0)
                 {
                     System.out.println("No New Request");
@@ -63,6 +60,15 @@ public class Notification {
                 }
                 else
                 {
+                    int not=0,se=0;
+                    System.out.println("Enter the notification number you want to process");
+                    not=input.nextInt();
+                    if(resultSet1.absolute(not))
+                    {
+                        se++;
+                        System.out.printf(se+". %s  %s",resultSet1.getString(2),resultSet1.getString(5));
+                        System.out.println();
+                    }
                     String Selection="";
                     System.out.println("Do you want to add or delete:");
                     System.out.println();
@@ -73,7 +79,8 @@ public class Notification {
                     System.out.println();
                     if(Selection.equals("1"))
                     {
-                        int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
+                        int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet1.getString(2)+"')");
+                        int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(1)+"' and Receiver='"+resultSet1.getString(2)+"'"); 
                     }
                     if(Selection.equals("2"))
                     {
