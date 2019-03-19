@@ -80,11 +80,13 @@ public class Notification {
                     if(Selection.equals("1"))
                     {
                         int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet1.getString(2)+"')");
-                        int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(1)+"' and Receiver='"+resultSet1.getString(2)+"'"); 
+                        int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
                     }
                     if(Selection.equals("2"))
                     {
-                        //Check_not.Delete();
+                        System.out.println(resultSet1.getString(2));
+                        int j=statement1.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
+
                     }
                     if(Selection.equals("x"))
                     {
@@ -117,14 +119,19 @@ public class Notification {
             Connection conn = null;
             Statement statement = null;
             ResultSet resultSet = null;
+            Statement statement1 = null;
+            ResultSet resultSet1 = null;
             try
             {
                 conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
                 statement = conn.createStatement();
                 resultSet = statement.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='M'");
+                statement1 = conn.createStatement();
+                resultSet1 = statement1.executeQuery("Select * from notification where receiver='"+u.uid+ "'and status ='"+0+" 'and type ='M'");
                 System.out.println("New Messages:");
                 System.out.println("----------------");
                 int seq=0;
+                int msgn=0;
                 while(resultSet.next())
                 {
                     seq++;
@@ -145,11 +152,16 @@ public class Notification {
                         System.out.println("1:Reply");
                         System.out.println("2:Read only");
                         System.out.println("x:Go Back");
-                        Selection = input.nextLine();
+                        Selection = input.next();
                         System.out.println();
                         if(Selection.equals("1"))
                         {
-                            int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet.getString(2)+"')");
+                            System.out.println("Select the message number you want to reply:");
+                            msgn=input.nextInt();
+                            if(resultSet1.absolute(msgn))
+                            {
+                                new Message().chat(resultSet1.getString(2),u.uid);
+                            }
                         }
                         if(Selection.equals("2"))
                         {

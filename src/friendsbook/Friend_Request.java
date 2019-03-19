@@ -43,30 +43,27 @@ public class Friend_Request {
             rs = st.executeQuery("Select n_num from nextnum");
             rsf = stf.executeQuery("Select * from friends");
             int nextNum = 0;
+            boolean empty=true;
             if(resultSet.next())
             {
-                if(rs.next())
-                {
-                    n_Id= "" + rs.getInt(1);
-                    nextNum = rs.getInt(1) + 1;
-                }
-                int t = statement.executeUpdate("Update nextnum set n_num = '" + nextNum + "'");
-                if(!rsf.next())
-                {
-                    int r = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +u.uid+ "', '"+f_Id+ "','R', 'Add Me','"+0+"')");
-                    System.out.println("***Friend Request Sent***");
-                }
-                else while(rsf.next())
+                while(rsf.next())
                 {
                     if((rsf.getString(1).equals(u.uid)&&rsf.getString(2).equals(f_Id))||(rsf.getString(2).equals(u.uid)&&rsf.getString(1).equals(f_Id)))
                     {
                         System.out.println("***Already Friend***");
+                        empty=false;
                     }
-                    else
+                }
+                if(empty)
+                {
+                    if(rs.next())
                     {
-                        int r = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +u.uid+ "', '"+f_Id+ "','R', 'Add Me','"+0+"')");
-                        System.out.println("***Friend Request Sent***");
+                        n_Id= "" + rs.getInt(1);
+                        nextNum = rs.getInt(1) + 1;
                     }
+                    int t = statement.executeUpdate("Update nextnum set n_num = '" + nextNum + "'");
+                    int r = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +u.uid+ "', '"+f_Id+ "','R', 'Add Me','"+0+"')");
+                    System.out.println("***Friend Request Sent***");
                 }
             }
         }
