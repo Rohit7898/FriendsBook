@@ -96,8 +96,67 @@ public class Message
             }
         }     
     }
-    public void chat(String s,String r){
-        System.out.println(s);
-        System.out.println(r);
+    public void chat(String s,String r)
+    {
+        User u=new User();
+        String n_Id="";
+        Scanner in=new Scanner(System.in);
+        final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        ResultSet rs = null;
+        Statement st = null;
+        String msg="";
+        int nextNum = 0;
+        try
+        {
+            conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+            statement = conn.createStatement();
+            st=conn.createStatement();
+            resultSet = statement.executeQuery("Select * from notification where type='M'");
+            rs = st.executeQuery("Select n_num from nextnum");
+            while(resultSet.next())
+            {
+                if((resultSet.getString(2).equals(s)&&resultSet.getString(3).equals(r)))
+                {
+                    System.out.println(s+": "+ resultSet.getString(5));
+                }
+                else if((resultSet.getString(2).equals(r)&&resultSet.getString(3).equals(s)))
+                {
+                    System.out.println(r+": "+ resultSet.getString(5));
+                }
+            }
+            System.out.print(r+":");
+            msg=in.next();
+            if(rs.next())
+            {
+                n_Id= "" + rs.getInt(1);
+                nextNum = rs.getInt(1) + 1;
+            }
+            int t = statement.executeUpdate("Update nextnum set n_num = '" + nextNum + "'");
+            int v = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +r+ "', '"+s+ "','M', '"+msg+"','"+0+"')");
+            }
+        catch(SQLException e)
+        {
+            System.out.println("Start new chat");
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                rs.close();
+                st.close();
+                resultSet.close();
+                statement.close();
+                conn.close();
+                ;
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

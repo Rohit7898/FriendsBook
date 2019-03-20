@@ -145,6 +145,8 @@ public class Notification {
                 else
                 {
                     String Selection="";
+                    System.out.println("Select the message number you want to reply:");
+                    msgn=input.nextInt();
                     while(!Selection.equals("x"))
                     {
                         System.out.println("Do you want to reply or not:");
@@ -156,16 +158,15 @@ public class Notification {
                         System.out.println();
                         if(Selection.equals("1"))
                         {
-                            System.out.println("Select the message number you want to reply:");
-                            msgn=input.nextInt();
                             if(resultSet1.absolute(msgn))
                             {
                                 new Message().chat(resultSet1.getString(2),u.uid);
+                                int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
                             }
                         }
                         if(Selection.equals("2"))
                         {
-                            //Check_not.Delete();
+                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
                         }
                         if(Selection.equals("x"))
                         {
@@ -185,13 +186,15 @@ public class Notification {
                 {
                     resultSet.close();
                     statement.close();
+                    resultSet1.close();
+                    statement1.close();
                     conn.close();
                 }
                 catch(Exception e)
                 {
                     e.printStackTrace();
                 }
-        }
+            }
         }
     }
 }
