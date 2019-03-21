@@ -152,6 +152,7 @@ public class User
                     }
                     if(Selection.equals("5"))
                     {
+                        new Profile().Update();
                     }
                     if(Selection.equals("6"))
                     {

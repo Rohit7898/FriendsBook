@@ -19,27 +19,20 @@ import java.text.DecimalFormat;
 public class AllFriends {
     public void myFriends(){
         
-          User u=new User();
-          
-                  
-        //  System.out.println(u.id);//to check which user logged in
-           final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
-        
-       Connection conn = null;
+        User u=new User();
+        final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
+        Connection conn = null;
         Statement statement = null;
         ResultSet resultSet = null;
-         ResultSet resultSet1 = null;
-          Statement statement1 = null;
-         try
-         {
-             
-             conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
-             statement = conn.createStatement();
-             statement1 = conn.createStatement();
-             resultSet = statement.executeQuery("Select * from friends Where id1 ='"+u.uid+"'or id2 = '"+u.uid+"'");
-             
-             
-           int seq=0;
+        ResultSet resultSet1 = null;
+        Statement statement1 = null;
+        try
+        {
+            conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+            statement = conn.createStatement();
+            statement1 = conn.createStatement();
+            resultSet = statement.executeQuery("Select * from friends Where id1 ='"+u.uid+"'or id2 = '"+u.uid+"'");
+            int seq=0;
             while(resultSet.next())
             {
                 if(resultSet.getString(1).equals(u.uid))
@@ -57,26 +50,25 @@ public class AllFriends {
                     System.out.println(seq+". "+resultSet1.getString(1));
                 }
             }            
-          
-         }
-         catch(SQLException e)
-         {
-             System.out.println("Problem.");
-             System.out.println("Try Again!!!!.");
-             e.printStackTrace();
-         }
-         finally
-         {
-             try
-             {
-                 resultSet.close();
-                 statement.close();
-                 conn.close();
-             }
-             catch(Exception e)
-             {
-                 e.printStackTrace();
-             }
-         }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Problem.");
+            System.out.println("Try Again!!!!.");
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                resultSet.close();
+                statement.close();
+                conn.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

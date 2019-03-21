@@ -147,31 +147,27 @@ public class Notification {
                     String Selection="";
                     System.out.println("Select the message number you want to reply:");
                     msgn=input.nextInt();
-                    while(!Selection.equals("x"))
+                    System.out.println("Do you want to reply or not:");
+                    System.out.println();
+                    System.out.println("1:Reply");
+                    System.out.println("2:Go Back");
+                    Selection = input.next();
+                    System.out.println();
+                    if(Selection.equals("1"))
                     {
-                        System.out.println("Do you want to reply or not:");
-                        System.out.println();
-                        System.out.println("1:Reply");
-                        System.out.println("2:Read only");
-                        System.out.println("x:Go Back");
-                        Selection = input.next();
-                        System.out.println();
-                        if(Selection.equals("1"))
+                        if(resultSet1.absolute(msgn))
                         {
-                            if(resultSet1.absolute(msgn))
-                            {
-                                new Message().chat(resultSet1.getString(2),u.uid);
-                                int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
-                            }
+                            new Message().chat(resultSet1.getString(2),u.uid);
+                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'"); 
                         }
-                        if(Selection.equals("2"))
+                    }
+                    if(Selection.equals("2"))
+                    {
+                        if(resultSet1.absolute(msgn))
                         {
-                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
+                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'"); 
                         }
-                        if(Selection.equals("x"))
-                        {
-                            ;
-                        }
+                        ;
                     }
                 }
                 
