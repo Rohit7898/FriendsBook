@@ -7,10 +7,13 @@ package friendsbook;
 
 import static friendsbook.User.uid;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Scanner;
 
 /**
@@ -22,18 +25,25 @@ public class Profile
     public static void Update()
     {
         Scanner input=new Scanner(System.in);
+        Timestamp t=new Timestamp(Calendar.getInstance().getTime().getTime());
         final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;
+        Statement st1 = null;
+        ResultSet rs1 = null;
         try
         {
             conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
             st = conn.createStatement();
             rs=st.executeQuery("Select * from user Where Id='"+uid+"'");
+            st1 = conn.createStatement();
+            rs1=st1.executeQuery("Select u_num from nextnum");
             showProfile();
             Scanner input1 = new Scanner(System.in);
             String Selection="";
+            String u_id="";
+            int nextnum=0;
             while(rs.next())
             {
                 while(!Selection.equals("x"))
@@ -57,6 +67,13 @@ public class Profile
                         }
                         else
                         {
+                            if(rs1.next())
+                            {
+                                u_id= "" + rs1.getInt(1);
+                                nextnum = rs1.getInt(1) + 1;
+                            }
+                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated name','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set UName='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
                             showProfile();
@@ -72,6 +89,13 @@ public class Profile
                         }
                         else
                         {
+                            if(rs1.next())
+                            {
+                                u_id= "" + rs1.getInt(1);
+                                nextnum = rs1.getInt(1) + 1;
+                            }
+                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated password','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Password='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
                             showProfile();
@@ -87,6 +111,13 @@ public class Profile
                         }
                         else
                         {
+                            if(rs1.next())
+                            {
+                                u_id= "" + rs1.getInt(1);
+                                nextnum = rs1.getInt(1) + 1;
+                            }
+                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated Gender','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Gender='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
                             showProfile();
@@ -102,9 +133,16 @@ public class Profile
                         }
                         else
                         {
-                        int r=st.executeUpdate("Update user Set Birthday='"+name+"' where Id='"+uid+"'");
-                        System.out.println("****Profile Updated****");
-                        showProfile();
+                            if(rs1.next())
+                            {
+                                u_id= "" + rs1.getInt(1);
+                                nextnum = rs1.getInt(1) + 1;
+                            }
+                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated birthday date','U','"+t+"')");
+                            int r=st.executeUpdate("Update user Set Birthday='"+name+"' where Id='"+uid+"'");
+                            System.out.println("****Profile Updated****");
+                            showProfile();
                         }
                     }
                     if(Selection.equals("5"))
@@ -117,9 +155,16 @@ public class Profile
                         }
                         else
                         {
-                        int r=st.executeUpdate("Update user Set Education='"+name+"' where Id='"+uid+"'");
-                        System.out.println("****Profile Updated****");
-                        showProfile();
+                            if(rs1.next())
+                            {
+                                u_id= "" + rs1.getInt(1);
+                                nextnum = rs1.getInt(1) + 1;
+                            }
+                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated education','U','"+t+"')");
+                            int r=st.executeUpdate("Update user Set Education='"+name+"' where Id='"+uid+"'");
+                            System.out.println("****Profile Updated****");
+                            showProfile();
                         }
                     }
                     if(Selection.equals("x"))
