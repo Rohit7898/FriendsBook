@@ -114,11 +114,20 @@ public class User
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try
         {
             conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+            statement = conn.createStatement();
             st = conn.createStatement();
+            resultSet = statement.executeQuery("Select * from notification where receiver='"+uid+ "'and status ='"+0+"'");
             rs=st.executeQuery("Select * from user Where Id='"+uid+"'and Password='"+password+"'");
+            int count = 0;
+            while (resultSet.next()) 
+            {
+                count++;
+            }
             if(rs.next())
             {
                 Scanner input1 = new Scanner(System.in);
@@ -126,7 +135,7 @@ public class User
                 while(!Selection.equals("x"))
                 {
                     System.out.println("1.Select an update and post");
-                    System.out.println("2:Check Notification");
+                    System.out.println("2:Check Notification ("+count+")");
                     System.out.println("3:Create a new post");
                     System.out.println("4:Friends");
                     System.out.println("5:Update Profile");
@@ -145,6 +154,7 @@ public class User
                     }
                     if(Selection.equals("3"))
                     {
+                        new Post().new_post();
                     }
                     if(Selection.equals("4"))
                     {
