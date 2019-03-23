@@ -59,7 +59,8 @@ public class Message
                             nextNum = rs.getInt(1) + 1;
                         }
                         int t = statement.executeUpdate("Update nextnum set n_num = '" + nextNum + "'");
-                        System.out.println("Enter your message:");
+                        chat(f_Id);
+                        System.out.print(u.uid+":");
                         msg=in.next();
                         int r = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +u.uid+ "', '"+f_Id+ "','M', '"+msg+"','"+0+"')");
                         System.out.println("***Message Sent***");
@@ -70,6 +71,10 @@ public class Message
                 {
                     System.out.println("This person is not your friend");
                 }
+            }
+            else
+            {
+                System.out.println("Invalid user id");
             }
             }
         catch(SQLException e)
@@ -136,6 +141,60 @@ public class Message
             }
             int t = statement.executeUpdate("Update nextnum set n_num = '" + nextNum + "'");
             int v = statement.executeUpdate("insert into notification values ('"+n_Id+"','" +r+ "', '"+s+ "','M', '"+msg+"','"+0+"')");
+            }
+        catch(SQLException e)
+        {
+            System.out.println("Start new chat");
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                rs.close();
+                st.close();
+                resultSet.close();
+                statement.close();
+                conn.close();
+                ;
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void chat(String s)
+    {
+        User u=new User();
+        String n_Id="";
+        Scanner in=new Scanner(System.in);
+        final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        ResultSet rs = null;
+        Statement st = null;
+        String msg="";
+        int nextNum = 0;
+        try
+        {
+            conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+            statement = conn.createStatement();
+            st=conn.createStatement();
+            resultSet = statement.executeQuery("Select * from notification where type='M'");
+            rs = st.executeQuery("Select n_num from nextnum");
+            while(resultSet.next())
+            {
+                if((resultSet.getString(2).equals(s)&&resultSet.getString(3).equals(u.uid)))
+                {
+                    System.out.println(s+": "+ resultSet.getString(5));
+                }
+                else if((resultSet.getString(2).equals(u.uid)&&resultSet.getString(3).equals(s)))
+                {
+                    System.out.println(u.uid+": "+ resultSet.getString(5));
+                }
+            }
             }
         catch(SQLException e)
         {

@@ -80,12 +80,13 @@ public class Notification {
                     if(Selection.equals("1"))
                     {
                         int i=statement.executeUpdate("insert into friends values ('"+u.uid+"','" +resultSet1.getString(2)+"')");
-                        int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
+                        int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'and type ='R'"); 
+                        System.out.println("You are now friend with "+resultSet1.getString(2));
                     }
                     if(Selection.equals("2"))
                     {
                         System.out.println(resultSet1.getString(2));
-                        int j=statement1.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'"); 
+                        int j=statement1.executeUpdate("UPDATE notification SET status='"+1+"' where NId='"+resultSet1.getString(1)+"'and type ='R'"); 
 
                     }
                     if(Selection.equals("x"))
@@ -158,14 +159,14 @@ public class Notification {
                         if(resultSet1.absolute(msgn))
                         {
                             new Message().chat(resultSet1.getString(2),u.uid);
-                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'"); 
+                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'and type ='M'"); 
                         }
                     }
                     if(Selection.equals("2"))
                     {
                         if(resultSet1.absolute(msgn))
                         {
-                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'"); 
+                            int j=statement.executeUpdate("UPDATE notification SET status='"+1+"' where Sender='"+resultSet1.getString(2)+"'and type ='M'"); 
                         }
                         ;
                     }

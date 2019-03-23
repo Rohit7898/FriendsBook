@@ -121,10 +121,13 @@ public class User
         ResultSet rs2 = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        Statement statement1 = null;
+        ResultSet resultSet1 = null;
         try
         {
             conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
             statement = conn.createStatement();
+            statement1 = conn.createStatement();
             st = conn.createStatement();
             st1 = conn.createStatement();
             st2 = conn.createStatement();
@@ -152,19 +155,32 @@ public class User
                             System.out.println(rs1.getString(2)+": "+rs1.getString(3));
                         }
                     }
-                    resultSet = statement.executeQuery("Select * from notification where receiver='"+uid+ "'and status ='"+0+"'");
-                    int count = 0;
+                    resultSet = statement.executeQuery("Select * from notification where receiver='"+uid+ "'and status ='"+0+"' and type='M'");
+                    resultSet1 = statement1.executeQuery("Select * from notification where receiver='"+uid+ "'and status ='"+0+" 'and type ='R'");
+                    int countr = 0,countm=0;
                     while (resultSet.next()) 
                     {
-                         count++;
+                         countm++;
+                    }
+                    while (resultSet1.next()) 
+                    {
+                         countr++;
                     }
                     System.out.println("1.Select an update and post");
-                    if(count==0){
+                    if(countm==0&&countr==0){
                         System.out.println("2:Check Notification");
+                    }
+                    else if(countm==0)
+                    {
+                        System.out.println("2:Check Notification ("+countr+" Request)");
+                    }
+                    else if(countr==0)
+                    {
+                        System.out.println("2:Check Notification ("+countm+" new msg)");
                     }
                     else
                     {
-                        System.out.println("2:Check Notification ("+count+")");
+                        System.out.println("2:Check Notification ("+countr+" Request and "+countr+" msg)");
                     }
                     System.out.println("3:Create a new post");
                     System.out.println("4:Friends");

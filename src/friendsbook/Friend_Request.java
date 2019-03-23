@@ -25,6 +25,11 @@ public class Friend_Request {
         Scanner in=new Scanner(System.in);
         System.out.println("Enter User Id to send Friend Request:");
         f_Id=in.next();
+        while(f_Id==u.uid)
+        {
+            System.out.println("You can't be friend with yourself");
+            f_Id=in.next();
+        }
         final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
         Connection conn = null;
         Statement statement = null;
