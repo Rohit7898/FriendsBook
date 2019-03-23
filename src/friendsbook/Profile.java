@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -22,10 +23,13 @@ import java.util.Scanner;
  */
 public class Profile 
 {
-    public static void Update()
+    String u_id="";
+    int nextnum=0;
+    public void Update()
     {
         Scanner input=new Scanner(System.in);
         Timestamp t=new Timestamp(Calendar.getInstance().getTime().getTime());
+        ArrayList <String> user=new ArrayList<String>();
         final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
         Connection conn = null;
         Statement st = null;
@@ -42,9 +46,14 @@ public class Profile
             showProfile();
             Scanner input1 = new Scanner(System.in);
             String Selection="";
-            String u_id="";
-            int nextnum=0;
             while(rs.next())
+            {
+                user.add(rs.getString(2));
+                user.add(rs.getString(3));
+                user.add(rs.getString(4));
+                user.add(rs.getString(5));
+                user.add(rs.getString(6));
+            }
             {
                 while(!Selection.equals("x"))
                 {
@@ -61,18 +70,13 @@ public class Profile
                     {
                         System.out.println("Enter new name:");
                         String name=input.next();
-                        if(rs.getString(2).equals(name))
+                        if(user.get(0).contains(name))
                         {
                             System.out.println("Its same as current name");
                         }
                         else
                         {
-                            if(rs1.next())
-                            {
-                                u_id= "" + rs1.getInt(1);
-                                nextnum = rs1.getInt(1) + 1;
-                            }
-                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            uppost();
                             int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated name','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set UName='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
@@ -83,18 +87,13 @@ public class Profile
                     {
                         System.out.println("Enter new Password:");
                         String name=input.next();
-                        if(rs.getString(3).equals(name))
+                        if(user.get(1).contains(name))
                         {
                             System.out.println("Its same as current Password");
                         }
                         else
                         {
-                            if(rs1.next())
-                            {
-                                u_id= "" + rs1.getInt(1);
-                                nextnum = rs1.getInt(1) + 1;
-                            }
-                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            uppost();
                             int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated password','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Password='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
@@ -105,18 +104,13 @@ public class Profile
                     {
                         System.out.println("Enter new Gender:");
                         String name=input.next();
-                        if(rs.getString(4).equals(name))
+                        if(user.get(2).contains(name))
                         {
                             System.out.println("Its same as current Gender");
                         }
                         else
                         {
-                            if(rs1.next())
-                            {
-                                u_id= "" + rs1.getInt(1);
-                                nextnum = rs1.getInt(1) + 1;
-                            }
-                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            uppost();
                             int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated Gender','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Gender='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
@@ -127,18 +121,13 @@ public class Profile
                     {
                         System.out.println("Enter new Birthday:");
                         String name=input.next();
-                        if(rs.getString(6).equals(name))
+                        if(user.get(4).contains(name))
                         {
                             System.out.println("Its same as current birthday value");
                         }
                         else
                         {
-                            if(rs1.next())
-                            {
-                                u_id= "" + rs1.getInt(1);
-                                nextnum = rs1.getInt(1) + 1;
-                            }
-                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            uppost();
                             int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated birthday date','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Birthday='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
@@ -149,18 +138,13 @@ public class Profile
                     {
                         System.out.println("Enter new Education:");
                         String name=input.next();
-                        if(rs.getString(5).equals(name))
+                        if(user.get(3).contains(name))
                         {
                             System.out.println("Its same as current name of education");
                         }
                         else
                         {
-                            if(rs1.next())
-                            {
-                                u_id= "" + rs1.getInt(1);
-                                nextnum = rs1.getInt(1) + 1;
-                            }
-                            int u = st1.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+                            uppost();
                             int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated education','U','"+t+"')");
                             int r=st.executeUpdate("Update user Set Education='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
@@ -184,7 +168,7 @@ public class Profile
             {
                 conn.close();
                 st.close();
-                rs.close();
+                //rs.close();
             }
             catch(Exception e)
             {
@@ -192,7 +176,7 @@ public class Profile
             }
         }
     }
-    public static void showProfile()
+    public  void showProfile()
     {
         Scanner input=new Scanner(System.in);
         final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
@@ -230,5 +214,41 @@ public class Profile
                 e.printStackTrace();
             }
         }
+    }
+    public void uppost(){
+        final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = DriverManager.getConnection(DB_URL,"prajapatir1738","1629042");
+            st = conn.createStatement();
+            rs=st.executeQuery("Select u_num from nextnum");
+            if(rs.next())
+                {
+                    u_id= "" + rs.getInt(1);
+                    nextnum = rs.getInt(1) + 1;
+                }
+                int u = st.executeUpdate("Update nextnum set u_num = '" + nextnum + "'");
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+                st.close();
+                rs.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
     }
 }
