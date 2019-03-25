@@ -29,7 +29,7 @@ public class PostComment
     {
         Scanner input=new Scanner(System.in);
         final String DB_URL="jdbc:mysql://mis-sql.uhcl.edu/prajapatir1738";
-        ArrayList <String> friends =new ArrayList<String>();
+        
         Connection conn = null;
         Statement st1 = null;
         ResultSet rs1 = null;
@@ -48,6 +48,7 @@ public class PostComment
             rs2=st2.executeQuery("Select * from friends Where id1='"+uid+"' or id2='"+uid+"'");
             rs3=st3.executeQuery("Select * from comment");
             Scanner input1 = new Scanner(System.in);
+            ArrayList <String> friends =new ArrayList<String>();
             String Selection="";
             while(rs2.next()){
                 if(rs2.getString(1).equals(uid)){
