@@ -240,12 +240,11 @@ public class PostComment
             else
             {
                 int r = st.executeUpdate("insert into hashtag values ('"+t+"','" +0+ "')");
-                System.out.println("***New tag Created***");
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Friend's Id NOT FOUND!!Try Again!!");
+            System.out.println("Try Again!!");
             e.printStackTrace();
         }
         finally

@@ -134,7 +134,6 @@ public class Post {
             else
             {
                 int r = st.executeUpdate("insert into hashtag values ('"+t+"','" +0+ "')");
-                System.out.println("***New tag Created***");
             }
         }
         catch(SQLException e)

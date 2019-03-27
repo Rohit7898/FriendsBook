@@ -57,7 +57,7 @@ public class User
                 {  
                     if(names.contains(id))
                     {
-                        System.out.print("Name already Exist");
+                        System.out.print("Id already Exist");
                     }
                     else
                     {
@@ -66,20 +66,31 @@ public class User
                         Name = input.next();  
                         System.out.println("Enter your password:");
                         password = input.next();
-                        System.out.println("Enter your Gender:");
-                        Gender = input.next();
-                        System.out.println("Enter your education:");
-                        Education = input.next();
-                        System.out.println("Enter your Birthday:");
-                        Birthday = input.next(); 
-                        int r = st.executeUpdate("Insert into user value('"+id+"', '"+Name+"', '"+password+"', '"+Gender+"', '"+Education+"', '"+Birthday+"')");
-                        System.out.println("The new user account is created!");
-                        new User().Login();
+                        Matcher mtch1 = userName.matcher(password);
+                        if(mtch1.matches()) 
+                        {
+                            System.out.println("Enter your Gender:");
+                            Gender = input.next();
+                            System.out.println("Enter your education:");
+                            Education = input.next();
+                            System.out.println("Enter your Birthday(yyyy-mm-dd):");
+                            Birthday = input.next(); 
+                            int r = st.executeUpdate("Insert into user value('"+id+"', '"+Name+"', '"+password+"', '"+Gender+"', '"+Education+"', '"+Birthday+"')");
+                            System.out.println("The new user account is created!");
+                            new User().Login();
+                        }
+                        else
+                        {
+                            System.out.println("Password does not match required criteria");
+                            System.out.println("Try Again");
+                            System.out.println();
+                        }
                     }
                 }
                 else
                 {
                     System.out.println("Invalid Id");
+                    System.out.println();
                     continue;
                 }
             }
@@ -121,6 +132,8 @@ public class User
             rs=st.executeQuery("Select * from user Where Id='"+uid+"'and Password='"+password+"'");
             if(rs.next())
             {
+                System.out.println("Welcome to FriendsBook "+rs.getString(2));
+                System.out.println();
                 Logedin();
             }
             else
@@ -222,6 +235,7 @@ public class User
                 System.out.println("7:Send a friend request");
                 System.out.println("8:See Hashtag in trend");
                 System.out.println("x:Logout");
+                System.out.println();
                 Selection = input1.nextLine();
                 System.out.println();
                 if(Selection.equals("1"))

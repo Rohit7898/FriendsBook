@@ -94,7 +94,7 @@ public class Profile
                         else
                         {
                             uppost();
-                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated password','U','"+t+"')");
+                            int i=st1.executeUpdate("insert into post values ('"+u_id+"','"+uid+"','Updated password','UP','"+t+"')");
                             int r=st.executeUpdate("Update user Set Password='"+name+"' where Id='"+uid+"'");
                             System.out.println("****Profile Updated****");
                             showProfile();
